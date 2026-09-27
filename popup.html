@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 360px;
+      max-height: 520px;
+      margin: 0;
+      padding: 10px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f8;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    .header {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .bulk-bar {
+      display: none;
+      background: #fff;
+      border: 1px solid #dcdcdc;
+      border-radius: 6px;
+      padding: 8px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      flex-direction: column;
+      gap: 6px;
+    }
+    .bulk-bar-title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #555;
+    }
+    .bulk-controls {
+      display: flex;
+      gap: 6px;
+    }
+    .bulk-controls select {
+      flex: 1;
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 11px;
+    }
+    .bulk-btn {
+      padding: 5px 10px;
+      background-color: #107c41;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .bulk-btn:hover {
+      background-color: #0b5a2f;
+    }
+    .bulk-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    #loading {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #666;
+    }
+    .video-card {
+      background: white;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-top {
+      display: flex;
+      gap: 10px;
+    }
+    .thumb-container {
+      position: relative;
+      width: 100px;
+      height: 56px;
+      flex-shrink: 0;
+      background: #000;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .thumb-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card-info {
+      flex: 1;
+      overflow: hidden;
+    }
+    .video-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+    select {
+      flex: 1;
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 12px;
+    }
+    button.dl-btn {
+      padding: 6px 12px;
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    button.dl-btn:hover {
+      background-color: #005a9e;
+    }
+    button.dl-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .progress-box {
+      display: none;
+      margin-top: 4px;
+    }
+    .progress-bar {
+      height: 6px;
+      width: 100%;
+      background: #e5e5e5;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #107c41;
+      transition: width 0.3s;
+    }
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #555;
+      margin-top: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">סרטונים שזוהו בדף</div>
+
+  <!-- סרגל הורדה מרוכזת -->
+  <div id="bulkBar" class="bulk-bar">
+    <div class="bulk-bar-title">הורדת כל הסרטונים שזוהו:</div>
+    <div class="bulk-controls">
+      <select id="bulkQualitySelect">
+        <option value="best">איכות מירבית (המקור)</option>
+        <option value="1080p">עד 1080p (Full HD)</option>
+        <option value="720p">עד 720p (HD)</option>
+        <option value="480p">עד 480p (איכות רגילה)</option>
+        <option value="360p">עד 360p (חיסכון בנפח)</option>
+        <option value="worst">איכות נמוכה ביותר</option>
+        <option value="audio_only">MP3 - אודיו בלבד</option>
+      </select>
+      <button id="downloadAllBtn" class="bulk-btn">הורד הכל</button>
+    </div>
+  </div>
+
+  <div id="loading">סורק סרטונים...</div>
+  <div id="videoList"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
